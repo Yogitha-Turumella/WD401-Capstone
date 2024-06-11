@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: #ffffff;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background: linear-gradient(
+                    rgba(0, 0, 0, 0.5), 
+                    rgba(0, 0, 0, 0.5)
+                ), 
+                url('1.jpeg') center/cover no-repeat, 
+                url('2.jpeg') center/cover no-repeat, 
+                url('3.jpeg') center/cover no-repeat; /* Ensure these paths are correct */
+            background-size: auto 100%;
+            background-position: 0 0, 100% 0, 200% 0;
+            animation: slideBackground 15s linear infinite;
+        }
+
+        @keyframes slideBackground {
+            0% { background-position: 0 0, 100% 0, 200% 0; }
+            33% { background-position: -100% 0, 0 0, 100% 0; }
+            66% { background-position: -200% 0, -100% 0, 0 0; }
+            100% { background-position: -300% 0, -200% 0, -100% 0; }
+        }
+
+        .container {
+            background-color: rgba(40, 41, 61, 0.8); /* Add opacity for better readability */
+            padding: 40px 30px;
+            border-radius: 12px;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            max-width: 500px;
+            width: 100%;
+        }
+
+        h2 {
+            color: #ffffff;
+            margin-bottom: 20px;
+            font-size: 28px;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+
+        label {
+            text-align: left;
+            margin-bottom: 10px;
+        }
+
+        input[type="text"],
+        input[type="email"],
+        input[type="password"] {
+            width: calc(100% - 22px);
+            padding: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #444;
+            border-radius: 6px;
+            background-color: #333;
+            color: #ffffff;
+        }
+
+        button {
+            padding: 12px;
+            border: none;
+            background-color: lightgoldenrodyellow;
+            color: black;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #e87941;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Sign Up</h2>
+        <form id="signupForm" action="/signupSubmit" method="post">
+            <label for="username">Username:</label>
+            <input type="text" id="signupUsername" name="username" required>
+            <label for="email">Email:</label>
+            <input type="email" id="signupEmail" name="email" required>
+            <label for="password">Password:</label>
+            <input type="password" id="signupPassword" name="password" required>
+            <button type="submit">Sign Up</button>
+        </form>
+    </div>
+    <script src="app.js"></script>
+</body>
+</html>

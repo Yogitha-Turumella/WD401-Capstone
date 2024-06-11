@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: #ffffff;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-image: url('background.png'); /* Ensure this path is correct */
+            background-size: cover;
+            background-position: center;
+        }
+        .container {
+            background-color: rgba(40, 41, 61, 0.8); /* Add opacity for better readability */
+            padding: 40px 30px;
+            border-radius: 12px;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            max-width: 600px; /* Increased from 400px */
+            width: 90%;
+            height: auto;
+            margin-bottom: 20px;
+        }
+        h2 {
+            color: #ffffff;
+            margin-bottom: 20px;
+            font-size: 28px;
+        }
+        p {
+            color: #a9a9b0;
+            font-size: 18px;
+        }
+        .search-bar {
+            margin-top: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        input[type="text"] {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #444;
+            border-radius: 6px;
+            background-color: #333;
+            color: #ffffff;
+            margin-bottom: 10px; /* Add some space between the input and button */
+        }
+        button {
+            padding: 12px 20px;
+            border: none;
+            background-color: darkblue;
+            color: white;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #e84141;
+        }
+        .error-message {
+            color: #ff6b81;
+            margin-top: 10px;
+            display: none;
+        }
+        .results {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            justify-content: center;
+            margin-top: 20px;
+        }
+        .results img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+            border: 2px solid #444;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Welcome to your Dashboard, <span id="username">User</span>!</h2>
+        <p>Login successful!</p>
+        <div class="search-bar">
+            <input type="text" id="search-input" placeholder="Search for an image...">
+            <button id="search-button">Search</button>
+        </div>
+        <p class="error-message" id="error-message">Something went wrong. Please try again.</p>
+    </div>
+    <div class="results" id="results"></div>
+
+    <script>
+        document.getElementById('search-button').addEventListener('click', async () => {
+            const query = document.getElementById('search-input').value.trim();
+            const apiKey = 'tXyIj7WFKpi5YCJYas7Tymot1QaMMl3OcTJzR1hRgd8';
+            const url = `https://api.unsplash.com/search/photos?query=${query}&client_id=${apiKey}`;
+
+            if (query === '') {
+                showError('Please enter a search term.');
+                return;
+            }
+
+            try {
+                const response = await fetch(url);
+                const data = await response.json();
+
+                if (response.ok) {
+                    if (data.results.length > 0) {
+                        displayResults(data.results);
+                        clearError();
+                    } else {
+                        showError('No results found.');
+                    }
+                } else {
+                    showError('No results found.');
+                }
+            } catch (error) {
+                console.error('Error fetching data:', error);
+                showError('Something went wrong. Please try again.');
+            }
+        });
+
+        function displayResults(results) {
+            const resultsContainer = document.getElementById('results');
+            resultsContainer.innerHTML = '';
+
+            results.forEach(result => {
+                const img = document.createElement('img');
+                img.src = result.urls.small;
+                img.alt = result.alt_description;
+                resultsContainer.appendChild(img);
+            });
+        }
+
+        function showError(message) {
+            const errorMessage = document.getElementById('error-message');
+            errorMessage.style.display = 'block';
+            errorMessage.innerText = message;
+        }
+
+        function clearError() {
+            const errorMessage = document.getElementById('error-message');
+            errorMessage.style.display = 'none';
+        }
+
+        // Inject username dynamically if needed
+        document.getElementById('username').innerText = 'User'; // Replace 'User' with actual username variable
+    </script>
+</body>
+</html>
